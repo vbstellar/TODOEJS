@@ -2,6 +2,8 @@ import express from "express";
 import bodyParser from "body-parser";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import path from "path";
+import date from "./date.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -13,15 +15,6 @@ app.use(express.static("public"));
 let port = 3000;
 let items = [];
 let workList = [];
-
-let date = new Date();
-let options = {
-  weekday: "long",
-  day: "numeric",
-  month: "long",
-};
-
-let today = date.toLocaleDateString("en-US", options);
 
 app.post("/", (req, res) => {
   let item = req.body.listItem;
@@ -35,6 +28,7 @@ app.post("/", (req, res) => {
 });
 
 app.get("/", (req, res) => {
+  let today = date();
   res.render("list", { listTitle: today, List: items });
 });
 
