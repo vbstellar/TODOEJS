@@ -1,10 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>To Do </title>
-</head>
-<body>
-    <h1><%=day%></h1>
-</body>
-</html>
+<%- include("header") %>
+    <div class="box" id="heading">
+        <h1><%=listTitle%></h1>
+    </div>
+
+    <div class="box">
+            <% for (let index = 0; index < List.length; index++) { %>
+                <div class="item">
+                    <input type="checkbox">
+                    <p><%= List[index] %></p>            
+                </div>
+         <%   } %>
+         <form class="item" action="/" method="post">
+            <input type="text" name="listItem" placeholder="Enter item" autocomplete="off">
+            <button type="submit" name="list" value= <%= listTitle %> >+</button>
+        </form>
+    </div>
+<%- include("footer") %>

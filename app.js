@@ -9,19 +9,37 @@ const __dirname = dirname(__filename);
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set("view engine", "ejs");
+app.use(express.static("public"));
 let port = 3000;
+let items = [];
+let workList = [];
 
-var date = new Date();
-var options = {
+let date = new Date();
+let options = {
   weekday: "long",
   day: "numeric",
   month: "long",
 };
 
-var today = date.toLocaleDateString("en-US", options);
+let today = date.toLocaleDateString("en-US", options);
+
+app.post("/", (req, res) => {
+  let item = req.body.listItem;
+  if (req.body.list === "Work") {
+    workList.push(item);
+    res.redirect("/work");
+  } else {
+    items.push(item);
+    res.redirect("/");
+  }
+});
 
 app.get("/", (req, res) => {
-  res.render("list", { day: today });
+  res.render("list", { listTitle: today, List: items });
+});
+
+app.get("/work", (req, res) => {
+  res.render("list", { listTitle: "Work List", List: workList });
 });
 
 app.listen(port, () => {
